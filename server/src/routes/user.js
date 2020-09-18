@@ -4,7 +4,7 @@ const { body, validationResult } = require("express-validator");
 
 // create a new user
 router.post(
-  "/users",
+  "/",
   [
     // sanitize user req.body
     body("email").isEmail().trim().escape(),
@@ -12,31 +12,46 @@ router.post(
     body("phoneNumber").isMobilePhone().trim(),
   ],
   async (req, res) => {
+    console.log("sanitize completed");
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
       return res.status(400).json({ errors: errors.array() });
     }
     try {
       const user = new User(req.body);
-      await user.save();
+      console.log(user);
+      await user.save(function (err, res) {
+        console.log("hej");
+        if (err) {
+          throw err;
+        }
+        console.log("test", res);
+      });
+      console.log("efter save");
       const token = await user.generateAuthToken();
-      res.status(201).send({ user, token });
+
+      res.status(201).json({ user: user, token: token });
     } catch (error) {
-      res.status(400).send(error);
+      res.status(400).json({ message: error });
     }
 
-    /* User.create({
-      firstname: req.body.username,
-      lastname: req.body.lastname,
-      phoneNumber: req.body.phoneNumber,
-      email: req.body.email,
-      password: req.body.password,
-    });*/
+    // ;
+    /* 
+   let user = User.create({
+        firstname: req.body.firstname,
+        lastname: req.body.lastname,
+        phoneNumber: req.body.phoneNumber,
+        email: req.body.email,
+        password: req.body.password,
+      });
+
+       let user = new User(req.body);
+      */
   }
 );
 
 // login user
-router.post("/users/login", async (req, res) => {
+router.post("/login", async (req, res) => {
   try {
     const { email, password } = req.body;
     const user = await User.findByCredential(email, password);
@@ -44,10 +59,14 @@ router.post("/users/login", async (req, res) => {
     if (!user) {
       return res
         .status(401)
-        .send({ error: "Login failed, check user credentails" });
+        .json({ error: "Login failed, check user credentails" });
     }
 
     const token = await User.generateAuthToken();
     res.send({ user, token });
-  } catch (error) {}
+  } catch (error) {
+    res.json({ message: error });
+  }
 });
+
+module.exports = router;
