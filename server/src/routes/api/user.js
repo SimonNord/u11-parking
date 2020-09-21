@@ -24,6 +24,7 @@ router.post("/", async (req, res) => {
   //create the new user
   try {
     const user = new User(req.body);
+
     // generate jwt token
     const token = await jwt.sign({ id: user.id }, process.env.JWT_KEY, {
       expiresIn: 3600,
@@ -46,7 +47,5 @@ router.post("/", async (req, res) => {
     throw new Error(error);
   }
 });
-
-// login user
 
 module.exports = router;

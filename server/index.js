@@ -10,7 +10,7 @@ app.use(express.json());
 app.use(cors());
 
 const userRoutes = require("./src/routes/api/user");
-const authRoutes = require("./src/middleware/auth");
+const authRoutes = require("./src/routes/api/auth");
 
 app.use("/api/users", userRoutes);
 app.use("/api/auth", authRoutes);
