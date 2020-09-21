@@ -46,6 +46,7 @@ router.post("/", async (req, res) => {
 router.get("/user", auth, (req, res) => {
   User.findById(req.user.id)
     .select("-password")
-    .then((user) => res.json(user).catch((err) => res.json({ message: err })));
+    .then((user) => res.json(user))
+    .catch((err) => res.json({ message: err }));
 });
 module.exports = router;
