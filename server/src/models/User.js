@@ -29,20 +29,20 @@ const userSchema = new mongoose.Schema({
     required: true,
     minlength: 7,
   },
-  memberSince: {
+  register_date: {
     type: Date,
     default: Date.now,
   },
   cars: [
     {
-      registrationNumber: { type: String, unique: true, default: null },
+      name: { type: String },
+      registrationNumber: { type: String },
     },
   ],
   tokens: [
     {
       token: {
         type: String,
-        required: true,
       },
     },
   ],
@@ -68,7 +68,7 @@ userSchema.methods.generateAuthToken = async function () {
 
 userSchema.statics.findByCredentials = async (email, password) => {
   // check if email exists in database
-  const user = await user.find({ email: email });
+  const user = await user.find({ email });
   if (!user) {
     throw new Error({ error: "invalid login credentials" });
   }

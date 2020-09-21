@@ -9,7 +9,7 @@ const app = express();
 app.use(express.json());
 app.use(cors());
 
-const userRoutes = require("./src/routes/user");
+const userRoutes = require("./src/routes/api/user");
 
 app.use("/users", userRoutes);
 
