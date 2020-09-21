@@ -1,43 +1,45 @@
 const router = require("express").Router();
 const User = require("../../models/User");
+const jwt = require("jsonwebtoken");
 
 // create a new user
 router.post("/", async (req, res) => {
   // Validate the required fields in body
-  const { firstname, lastname, email, password } = req.body;
+  const { firstname, lastname, email, password, phoneNumber } = req.body;
   if (!email || !password || !lastname || !firstname)
     return res.status(400).json({ message: "Please enter all fields" });
-
+  if (password.length < 7) {
+    return res.status(400).json({ message: "password is too short" });
+  }
   //Check for existing user
-  const emailAlreadyExists = await User.findOne({ email: req.body.email });
+  const emailAlreadyExists = await User.findOne({ email });
   if (emailAlreadyExists)
     return res.status(400).json({ message: "email address already in use" });
 
   //check for another user with the same phone number
-  const phoneNumberInUse = await User.findOne({
-    phoneNumber: req.body.phoneNumber,
-  });
+  const phoneNumberInUse = await User.findOne({ phoneNumber });
   if (phoneNumberInUse)
     return res.status(400).json({ message: "phone number already in use" });
 
   //create the new user
   try {
     const user = new User(req.body);
-    await user.save();
     // generate jwt token
-    const token = await user.generateAuthToken();
+    const token = await jwt.sign({ id: user.id }, process.env.JWT_KEY, {
+      expiresIn: 3600,
+    });
+    user.tokens = user.tokens.concat({ token });
 
-    // after save, return modified user obj
-    /* user : {
-      firstname: user.firstname
-      lastname: user.lastname,
-      email: user.email
-      phoneNumber: user.phoneNumber,
-      register_date: user.register_date,
-    }  */
-
+    await user.save();
+    // after save, return token and user without password
     res.status(201).json({
-      user,
+      user: {
+        firstname: user.firstname,
+        lastname: user.lastname,
+        email: user.email,
+        phoneNumber: user.phoneNumber,
+        register_date: user.register_date,
+      },
       token,
     });
   } catch (error) {
@@ -46,22 +48,5 @@ router.post("/", async (req, res) => {
 });
 
 // login user
-router.post("/login", async (req, res) => {
-  try {
-    const { email, password } = req.body;
-    const user = await User.findByCredentials(email, password);
-
-    if (!user) {
-      return res
-        .status(401)
-        .json({ error: "Login failed, check user credentails" });
-    }
-
-    const token = await User.generateAuthToken();
-    res.json({ user, token });
-  } catch (error) {
-    res.json({ message: error });
-  }
-});
 
 module.exports = router;
