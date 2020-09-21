@@ -1,4 +1,4 @@
-import mongoose from "mongoose";
+const mongoose = require("mongoose");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 
@@ -29,20 +29,20 @@ const userSchema = new mongoose.Schema({
     required: true,
     minlength: 7,
   },
-  memberSince: {
+  register_date: {
     type: Date,
     default: Date.now,
   },
   cars: [
     {
-      registrationNumber: { type: String, unique: true, default: null },
+      name: { type: String },
+      registrationNumber: { type: String },
     },
   ],
   tokens: [
     {
       token: {
         type: String,
-        required: true,
       },
     },
   ],
@@ -60,27 +60,24 @@ userSchema.pre("save", async function (next) {
 //generate jwt token
 userSchema.methods.generateAuthToken = async function () {
   const user = this;
-
-  const token = jwt.sign({ _id: user.id }, process.env.JWT_KEY);
+  const token = jwt.sign({ id: user.id }, process.env.JWT_KEY, {
+    expiresIn: 3600,
+  });
   user.tokens = user.tokens.concat({ token });
-  try {
-    await user.save();
-    return token;
-  } catch (err) {
-    throw new Error({ error: err });
-  }
+
+  return token;
 };
 
 userSchema.statics.findByCredentials = async (email, password) => {
   // check if email exists in database
-  const user = await user.find({ email });
+  const user = await user.findOne({ email });
   if (!user) {
-    throw new Error({ error: "invalid login credentials" });
+    throw new Error({ error: "Invalid login credentials" });
   }
   // check if password is a match after decryption
   const isPasswordMatch = await bcrypt.compare(password, user.password);
   if (!isPasswordMatch) {
-    throw new Error({ error: "invalid login credentials" });
+    throw new Error({ error: "Invalid login credentials" });
   }
   // if email exists and password match, return the user
   return user;
