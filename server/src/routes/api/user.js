@@ -3,6 +3,11 @@ const User = require("../../models/User");
 
 // create a new user
 router.post("/", async (req, res) => {
+  // Validate the required fields in body
+  const { firstname, lastname, email, password } = req.body;
+  if (!email || !password || !lastname || !firstname)
+    return res.status(400).json({ message: "Please enter all fields" });
+
   //Check for existing user
   const emailAlreadyExists = await User.findOne({ email: req.body.email });
   if (emailAlreadyExists)
@@ -20,7 +25,7 @@ router.post("/", async (req, res) => {
     const user = new User(req.body);
     await user.save();
     // generate jwt token
-    /* const token = await user.generateAuthToken(); */
+    const token = await user.generateAuthToken();
 
     // after save, return modified user obj
     /* user : {
@@ -29,11 +34,11 @@ router.post("/", async (req, res) => {
       email: user.email
       phoneNumber: user.phoneNumber,
       register_date: user.register_date,
-
     }  */
 
     res.status(201).json({
       user,
+      token,
     });
   } catch (error) {
     throw new Error(error);
