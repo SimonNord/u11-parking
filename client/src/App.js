@@ -16,7 +16,7 @@ const App = () => {
             <Login />
           </Route>
           <Route path='/register' component={Register}>
-            <Users />
+            <Register />
           </Route>
           <Route exact path='/' component={Home}>
             <Home />
@@ -41,9 +41,6 @@ function Register() {
 
 function Login() {
   return <h2>Login Form</h2>;
-}
-function Register() {
-  return <h2>Register Form</h2>;
 }
 
 export default App;
