@@ -35,8 +35,8 @@ function About() {
   return <h2>About</h2>;
 }
 
-function Users() {
-  return <h2>Users</h2>;
+function Register() {
+  return <h2>Register Form</h2>;
 }
 
 function Login() {
