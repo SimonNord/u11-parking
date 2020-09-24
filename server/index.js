@@ -9,11 +9,14 @@ const app = express();
 app.use(express.json());
 app.use(cors());
 
-const userRoutes = require("./src/routes/api/user");
-const authRoutes = require("./src/routes/api/auth");
+const UserContoller = require("./src/controllers/UserController");
+const AuthController = require("./src/controllers/AuthController");
 
-app.use("/api/users", userRoutes);
-app.use("/api/auth", authRoutes);
+app.use("/api/users", UserContoller);
+app.use("/api/auth", AuthController);
 
 const port = process.env.PORT | 4000;
-app.listen(port, () => console.log(`server is running on port ${port}`));
+
+app.listen(port, () => console.log(`Express is running on port ${port}`));
+
+module.exports = app;
