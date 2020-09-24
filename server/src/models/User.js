@@ -32,6 +32,7 @@ const userSchema = new mongoose.Schema({
     type: Date,
     default: Date.now,
   },
+  role: { type: String, enum: ["user", "admin", "control"], default: "user" },
   loggedIn: { type: Boolean, default: false },
   cars: [
     {

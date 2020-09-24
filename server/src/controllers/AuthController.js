@@ -33,9 +33,13 @@ router.post("/register", async (req, res) => {
     const user = new User(req.body);
 
     // generate jwt token
-    const token = await jwt.sign({ id: user.id }, process.env.JWT_KEY, {
-      expiresIn: 3600,
-    });
+    const token = await jwt.sign(
+      { id: user.id, role: user.role },
+      process.env.JWT_KEY,
+      {
+        expiresIn: 3600,
+      }
+    );
     user.token = token;
 
     await user.save();
@@ -85,9 +89,13 @@ router.post("/login", async (req, res) => {
     user.loggedIn = true;
 
     //generate jwt token
-    const token = await jwt.sign({ id: user.id }, process.env.JWT_KEY, {
-      expiresIn: 3600,
-    });
+    const token = await jwt.sign(
+      { id: user.id, role: user.role },
+      process.env.JWT_KEY,
+      {
+        expiresIn: 3600,
+      }
+    );
     user.token = token;
 
     user.save();
