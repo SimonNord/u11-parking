@@ -39,13 +39,9 @@ const userSchema = new mongoose.Schema({
       registrationNumber: { type: String },
     },
   ],
-  tokens: [
-    {
-      token: {
-        type: String,
-      },
-    },
-  ],
+  token: {
+    type: String,
+  },
 });
 
 //hash password before save
