@@ -2,6 +2,7 @@ import React from "react";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import "./App.css";
 import Header from "./components/Header";
+import Register from "./components/register/Register";
 
 const App = () => {
   return (
@@ -33,10 +34,6 @@ function Home() {
 
 function About() {
   return <h2>About</h2>;
-}
-
-function Register() {
-  return <h2>Register Form</h2>;
 }
 
 function Login() {
