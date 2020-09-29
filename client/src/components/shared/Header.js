@@ -15,7 +15,7 @@ const StyledList = styled.ul`
   list-style: none;
 `;
 
-const Header = () => {
+const Header = ({ user }) => {
   return (
     <header>
       <StyledNav>
@@ -33,6 +33,7 @@ const Header = () => {
             <Link to='/register'>Register</Link>
           </li>
         </StyledList>
+        {user && <div>{user.firstname}</div>}
       </StyledNav>
     </header>
   );

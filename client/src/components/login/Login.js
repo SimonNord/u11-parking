@@ -1,9 +1,10 @@
 import React, { useState } from "react";
+import { withRouter } from "react-router-dom";
 import axios from "axios";
 import ReactLoading from "react-loading";
 import styled from "styled-components";
 
-import Form from "../Form";
+import Form from "../shared/Form";
 
 const Input = styled.input`
   padding: 10px;
@@ -30,6 +31,7 @@ const Login = ({ history }) => {
         if (response.status >= 200 && response.status < 300) {
           setIsError(null);
           setIsLoading(false);
+          history.push("/");
         }
       })
       .catch(function (error) {
@@ -75,4 +77,4 @@ const Login = ({ history }) => {
   );
 };
 
-export default Login;
+export default withRouter(Login);
