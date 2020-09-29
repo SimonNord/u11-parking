@@ -1,8 +1,9 @@
 import React from "react";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import "./App.css";
-import Header from "./components/Header";
+import Header from "./components/shared/Header";
 import Register from "./components/register/Register";
+import Login from "./components/login/Login";
 
 const App = () => {
   return (
@@ -10,16 +11,16 @@ const App = () => {
       <Router>
         <Header />
         <Switch>
-          <Route path='/about' component={About}>
+          <Route path='/about'>
             <About />
           </Route>
-          <Route path='/login' component={Login}>
+          <Route path='/login'>
             <Login />
           </Route>
-          <Route path='/register' component={Register}>
+          <Route path='/register'>
             <Register />
           </Route>
-          <Route exact path='/' component={Home}>
+          <Route exact path='/'>
             <Home />
           </Route>
         </Switch>
@@ -34,10 +35,6 @@ function Home() {
 
 function About() {
   return <h2>About</h2>;
-}
-
-function Login() {
-  return <h2>Login Form</h2>;
 }
 
 export default App;
