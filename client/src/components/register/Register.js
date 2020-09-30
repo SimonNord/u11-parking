@@ -4,6 +4,9 @@ import axios from "axios";
 import styled from "styled-components";
 import ReactLoading from "react-loading";
 import Form from "../shared/Form";
+import { setUser } from "../../redux/actions";
+import { connect } from "react-redux";
+import { withRouter } from "react-router-dom";
 
 const Input = styled.input`
   padding: 10px;
@@ -18,30 +21,29 @@ const StyledButton = styled.button`
   padding: 6px;
 `;
 
-const Register = () => {
+const Register = ({ setUser, history }) => {
   const [isError, setIsError] = useState();
   const [formData, setformData] = useState();
   const [isLoading, setIsLoading] = useState(false);
 
-  const postRequest = async (url) => {
-    await axios
-      .post(url, formData)
-      .then((response) => {
-        if (response.status >= 200 && response.status < 300) {
-          setIsError(null);
-          setIsLoading(false);
-        }
-      })
-      .catch(function (error) {
-        setIsLoading(false);
-        setIsError(error.response);
-      });
-  };
-
   const handleSubmit = async (e) => {
     setIsLoading(true);
     e.preventDefault();
-    postRequest("http://localhost:4000/api/auth/register");
+    try {
+      let response = await axios.post(
+        "http://localhost:4000/api/auth/register",
+        formData
+      );
+      setIsLoading(false);
+
+      if (response.status >= 200 && response.status < 300) {
+        setUser(response.data.user);
+        history.push("/");
+      }
+    } catch (err) {
+      setIsError(err);
+      console.error(err);
+    }
   };
 
   const handleChange = async (event) => {
@@ -118,4 +120,4 @@ const Register = () => {
   );
 };
 
-export default Register;
+export default withRouter(connect(null, { setUser })(Register));
