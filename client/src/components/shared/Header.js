@@ -4,6 +4,7 @@ import styled from "styled-components";
 import { connect } from "react-redux";
 import { getUserState } from "../../redux/selectors";
 import { logOutUser } from "../../redux/actions";
+import { withRouter } from "react-router-dom";
 
 const StyledNav = styled.nav`
   display: flex;
@@ -24,9 +25,10 @@ const mapStateToProps = (state) => {
   return { user };
 };
 
-const Header = ({ user, logOutUser }) => {
+const Header = ({ user, logOutUser, history }) => {
   const handleLogout = () => {
     logOutUser();
+    history.push("/");
   };
   return (
     <header>
@@ -55,4 +57,4 @@ const Header = ({ user, logOutUser }) => {
     </header>
   );
 };
-export default connect(mapStateToProps, { logOutUser })(Header);
+export default withRouter(connect(mapStateToProps, { logOutUser })(Header));
