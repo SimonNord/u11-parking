@@ -3,7 +3,6 @@ import axios from "axios";
 
 import styled from "styled-components";
 import ReactLoading from "react-loading";
-
 import Form from "../shared/Form";
 
 const Input = styled.input`

@@ -3,6 +3,8 @@ import { withRouter } from "react-router-dom";
 import axios from "axios";
 import ReactLoading from "react-loading";
 import styled from "styled-components";
+import { setUser } from "../../redux/actions";
+import { connect } from "react-redux";
 
 import Form from "../shared/Form";
 
@@ -16,7 +18,7 @@ const StyledButton = styled.button`
   padding: 6px;
 `;
 
-const Login = ({ history }) => {
+const Login = ({ history, setUser }) => {
   const [isError, setIsError] = useState();
   const [formData, setformData] = useState();
   const [isLoading, setIsLoading] = useState(false);
@@ -25,19 +27,21 @@ const Login = ({ history }) => {
     setIsLoading(true);
     e.preventDefault();
 
-    await axios
-      .post("http://localhost:4000/api/auth/login", formData)
-      .then((response) => {
-        if (response.status >= 200 && response.status < 300) {
-          setIsError(null);
-          setIsLoading(false);
-          history.push("/");
-        }
-      })
-      .catch(function (error) {
-        setIsLoading(false);
-        setIsError(error.response);
-      });
+    try {
+      let response = await axios.post(
+        "http://localhost:4000/api/auth/login",
+        formData
+      );
+      setIsLoading(false);
+
+      if (response.status >= 200 && response.status < 300) {
+        setUser(response.data.user);
+        history.push("/");
+      }
+    } catch (err) {
+      setIsError(err);
+      console.error(err);
+    }
   };
 
   const handleChange = async (event) => {
@@ -77,4 +81,4 @@ const Login = ({ history }) => {
   );
 };
 
-export default withRouter(Login);
+export default withRouter(connect(null, { setUser })(Login));

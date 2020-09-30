@@ -73,7 +73,7 @@ router.post("/login", async (req, res) => {
     if (!user) {
       return res
         .status(401)
-        .json({ error: "Login failed, check user credentails" });
+        .json({ message: "Login failed, check user credentails" });
     }
     const passwordMatch = await bcrypt.compare(password, user.password);
     if (!passwordMatch) {
@@ -89,8 +89,8 @@ router.post("/login", async (req, res) => {
       expiresIn: 3600,
     });
     user.token = token;
-
     user.save();
+
     res.json({ user, token });
   } catch (error) {
     res.json({ message: error });
