@@ -1,4 +1,4 @@
-import { SET_USER } from "../actionTypes";
+import { LOGOUT_USER, SET_USER } from "../actionTypes";
 
 const initialState = {
   user: JSON.parse(localStorage.getItem("user")) || null,
@@ -12,6 +12,12 @@ export default function (state = initialState, action) {
       return {
         ...state,
         user: user,
+      };
+    }
+    case LOGOUT_USER: {
+      localStorage.removeItem("user");
+      return {
+        user: null,
       };
     }
     default:

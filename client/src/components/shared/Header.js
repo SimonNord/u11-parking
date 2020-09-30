@@ -3,6 +3,8 @@ import { Link } from "react-router-dom";
 import styled from "styled-components";
 import { connect } from "react-redux";
 import { getUserState } from "../../redux/selectors";
+import { logOutUser } from "../../redux/actions";
+import { withRouter } from "react-router-dom";
 
 const StyledNav = styled.nav`
   display: flex;
@@ -23,7 +25,11 @@ const mapStateToProps = (state) => {
   return { user };
 };
 
-const Header = ({ user, handleClick }) => {
+const Header = ({ user, logOutUser, history }) => {
+  const handleLogout = () => {
+    logOutUser();
+    history.push("/");
+  };
   return (
     <header>
       <StyledNav>
@@ -44,11 +50,11 @@ const Header = ({ user, handleClick }) => {
         {user && (
           <div>
             Logged in as user: <strong>{user.firstname}</strong>
-            <button onClick={handleClick}>Logout</button>
+            <button onClick={handleLogout}>Logout</button>
           </div>
         )}
       </StyledNav>
     </header>
   );
 };
-export default connect(mapStateToProps)(Header);
+export default withRouter(connect(mapStateToProps, { logOutUser })(Header));

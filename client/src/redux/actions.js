@@ -1,26 +1,11 @@
-import { ADD_TODO, TOGGLE_TODO, SET_FILTER, SET_USER } from "./actionTypes";
-
-let nextTodoId = 0;
-
-export const addTodo = (content) => ({
-  type: ADD_TODO,
-  payload: {
-    id: ++nextTodoId,
-    content,
-  },
-});
-
-export const toggleTodo = (id) => ({
-  type: TOGGLE_TODO,
-  payload: { id },
-});
-
-export const setFilter = (filter) => ({
-  type: SET_FILTER,
-  payload: { filter },
-});
+import { LOGOUT_USER, SET_USER } from "./actionTypes";
 
 export const setUser = (user) => ({
   type: SET_USER,
+  payload: { user },
+});
+
+export const logOutUser = (user) => ({
+  type: LOGOUT_USER,
   payload: { user },
 });
