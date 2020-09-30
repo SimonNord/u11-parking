@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import "./App.css";
 import Header from "./components/shared/Header";
@@ -6,10 +6,20 @@ import Register from "./components/register/Register";
 import Login from "./components/login/Login";
 
 const App = () => {
+  const [user, setUser] = useState();
+
+  useEffect(() => {
+    setUser(localStorage.getItem("user") || "");
+  }, []);
+
+  const handleLogOut = () => {
+    setUser("");
+    localStorage.removeItem("user");
+  };
   return (
     <>
       <Router>
-        <Header />
+        <Header user={user} handleClick={handleLogOut} />
         <Switch>
           <Route path='/about'>
             <About />

@@ -1,6 +1,8 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
+import { connect } from "react-redux";
+import { getUserState } from "../../redux/selectors";
 
 const StyledNav = styled.nav`
   display: flex;
@@ -15,7 +17,13 @@ const StyledList = styled.ul`
   list-style: none;
 `;
 
-const Header = ({ user }) => {
+const mapStateToProps = (state) => {
+  const { user } = getUserState(state);
+
+  return { user };
+};
+
+const Header = ({ user, handleClick }) => {
   return (
     <header>
       <StyledNav>
@@ -33,10 +41,14 @@ const Header = ({ user }) => {
             <Link to='/register'>Register</Link>
           </li>
         </StyledList>
-        {user && <div>{user.firstname}</div>}
+        {user && (
+          <div>
+            Logged in as user: <strong>{user.firstname}</strong>
+            <button onClick={handleClick}>Logout</button>
+          </div>
+        )}
       </StyledNav>
     </header>
   );
 };
-
-export default Header;
+export default connect(mapStateToProps)(Header);
