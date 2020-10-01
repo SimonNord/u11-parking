@@ -1,15 +1,3 @@
-<<<<<<< Updated upstream:client/src/components/login/Login.js
-import React, { useState } from "react";
-import { withRouter } from "react-router-dom";
-import axios from "axios";
-import ReactLoading from "react-loading";
-import styled from "styled-components";
-import { setUser } from "../../../redux/actions";
-import { connect } from "react-redux";
-
-<<<<<<< HEAD:client/src/components/login/Login.js
-import Form from "../shared/Form";
-=======
 import React, { useState } from 'react';
 import { withRouter } from 'react-router-dom';
 import axios from 'axios';
@@ -19,11 +7,6 @@ import { connect } from 'react-redux';
 import { setUser } from '../../../redux/actions';
 
 import Form from '../../shared/Form';
->>>>>>> Stashed changes:client/src/components/Content/login/Login.js
-=======
-import Form from "../../shared/Form";
->>>>>>> add sidebarComponent and child components:client/src/components/Content/login/Login.js
-
 const Input = styled.input`
   padding: 10px;
   margin-bottom: 25px;
