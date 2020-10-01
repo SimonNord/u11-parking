@@ -1,21 +1,12 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 
-<<<<<<< Updated upstream:client/src/components/register/Register.js
-import styled from "styled-components";
-import ReactLoading from "react-loading";
-import Form from "../shared/Form";
-import { setUser } from "../../redux/actions";
-import { connect } from "react-redux";
-import { withRouter } from "react-router-dom";
-=======
 import styled from 'styled-components';
 import ReactLoading from 'react-loading';
-import { connect } from 'react-redux';
-import { withRouter } from 'react-router-dom';
 import Form from '../../shared/Form';
 import { setUser } from '../../../redux/actions';
->>>>>>> Stashed changes:client/src/components/Content/register/Register.js
+import { connect } from 'react-redux';
+import { withRouter } from 'react-router-dom';
 
 const Input = styled.input`
   padding: 10px;
