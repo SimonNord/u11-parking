@@ -4,18 +4,28 @@ import styled from 'styled-components';
 
 const StyledLink = styled(Link)`
   display: block;
-  color: black;
+  background-color: ${(props) => props.bgColor} ||white;
+  color: ${(props) => props.color};
   text-decoration: none;
-  padding: 10px;
   font-size: 600;
   &:hover {
-    background-color: blue;
-    color: white;
+    background-color: ${(props) => props.hoverBgColor};
+    color: ${(props) => props.hoverColor};
   }
 `;
 
-const AnchorLink = ({ children }) => {
-  return <StyledLink>{children}</StyledLink>;
+const AnchorLink = ({ hoverColor, hoverBgColor, bgColor, color, to, children }) => {
+  return (
+    <StyledLink
+      hoverBgColor={hoverBgColor}
+      hoverColor={hoverColor}
+      bgColor={bgColor}
+      color={color}
+      to={to}
+    >
+      {children}
+    </StyledLink>
+  );
 };
 
 export default AnchorLink;

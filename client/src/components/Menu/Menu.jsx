@@ -1,9 +1,12 @@
 import React from 'react';
+import styled from 'styled-components';
+
+const StyledList = styled.ul``;
 
 const Menu = ({ children }) => {
   return (
     <nav role="navigation">
-      <ul>{children}</ul>
+      <StyledList>{children}</StyledList>
     </nav>
   );
 };

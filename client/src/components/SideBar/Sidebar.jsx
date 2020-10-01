@@ -8,6 +8,7 @@ import Menu from '../Menu/Menu';
 import MenuItem from '../Menu/components/MenuItem/MenuItem';
 import { getUserState } from '../../redux/selectors';
 import { logOutUser } from '../../redux/actions';
+import AnchorLink from '../shared/AnchorLink';
 
 const Background = styled.div`
   background-color: rgb(36, 47, 60);
@@ -40,16 +41,48 @@ const Sidebar = ({ user }) => {
       )}
       <Menu>
         <MenuItem>
-          <Link to="/"> Home</Link>
+          <AnchorLink
+            color="white"
+            bgColor="transparent"
+            hoverColor="black"
+            hoverBgColor="white"
+            to="/"
+          >
+            Home
+          </AnchorLink>
         </MenuItem>
         <MenuItem>
-          <Link to="/login"> Login</Link>
+          <AnchorLink
+            color="white"
+            bgColor="transparent"
+            hoverColor="black"
+            hoverBgColor="white"
+            to="/login"
+          >
+            Login
+          </AnchorLink>
         </MenuItem>
         <MenuItem>
-          <Link to="/register"> Register</Link>
+          <AnchorLink
+            color="white"
+            bgColor="transparent"
+            hoverColor="black"
+            hoverBgColor="white"
+            to="/register"
+          >
+            Register
+          </AnchorLink>
         </MenuItem>
         <MenuItem>
-          <Link to="/about"> About</Link>
+          <AnchorLink
+            color="white"
+            bgColor="transparent"
+            hoverColor="black"
+            hoverBgColor="white"
+            to="/about"
+          >
+            About
+          </AnchorLink>
         </MenuItem>
       </Menu>
     </Background>
