@@ -1,5 +1,5 @@
-import React from "react";
-import styled from "styled-components";
+import React from 'react';
+import styled from 'styled-components';
 
 const Spacer = ({ children, top, right, bottom, left }) => {
   const paddingTop = top * 8;
@@ -8,8 +8,7 @@ const Spacer = ({ children, top, right, bottom, left }) => {
   const paddingLeft = left * 8;
 
   const SpacerDiv = styled.div`
-    padding: ${paddingTop}px ${paddingRight}px ${paddingBottom}px
-      ${paddingLeft}px;
+    padding: ${paddingTop}px ${paddingRight}px ${paddingBottom}px ${paddingLeft}px;
   `;
 
   return <SpacerDiv>{children}</SpacerDiv>;

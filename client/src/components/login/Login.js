@@ -1,3 +1,4 @@
+<<<<<<< Updated upstream:client/src/components/login/Login.js
 import React, { useState } from "react";
 import { withRouter } from "react-router-dom";
 import axios from "axios";
@@ -7,6 +8,17 @@ import { setUser } from "../../redux/actions";
 import { connect } from "react-redux";
 
 import Form from "../shared/Form";
+=======
+import React, { useState } from 'react';
+import { withRouter } from 'react-router-dom';
+import axios from 'axios';
+import ReactLoading from 'react-loading';
+import styled from 'styled-components';
+import { connect } from 'react-redux';
+import { setUser } from '../../../redux/actions';
+
+import Form from '../../shared/Form';
+>>>>>>> Stashed changes:client/src/components/Content/login/Login.js
 
 const Input = styled.input`
   padding: 10px;
@@ -28,15 +40,12 @@ const Login = ({ history, setUser }) => {
     e.preventDefault();
 
     try {
-      let response = await axios.post(
-        "http://localhost:4000/api/auth/login",
-        formData
-      );
+      const response = await axios.post('http://localhost:4000/api/auth/login', formData);
       setIsLoading(false);
 
       if (response.status >= 200 && response.status < 300) {
         setUser(response.data.user);
-        history.push("/");
+        history.push('/');
       }
     } catch (err) {
       setIsError(err);
@@ -45,38 +54,36 @@ const Login = ({ history, setUser }) => {
   };
 
   const handleChange = async (event) => {
-    let target = event.target;
-    let value = target.value;
+    const { target } = event;
+    const { value } = target;
 
     setformData({ ...formData, [target.name]: value });
   };
 
   if (isLoading) {
-    return (
-      <ReactLoading type={"spin"} color={"red"} height={667} width={375} />
-    );
+    return <ReactLoading type="spin" color="red" height={667} width={375} />;
   }
 
   return (
-    <Form title='Login' handleSubmit={handleSubmit}>
+    <Form title="Login" handleSubmit={handleSubmit}>
       <Input
         onChange={handleChange}
-        type='email'
-        id='email'
-        name='email'
-        placeholder='Email'
+        type="email"
+        id="email"
+        name="email"
+        placeholder="Email"
         required
       />
       <Input
         onChange={handleChange}
-        id='password'
-        name='password'
-        type='password'
-        placeholder='Password'
-        minLength='7'
+        id="password"
+        name="password"
+        type="password"
+        placeholder="Password"
+        minLength="7"
       />
-      <StyledButton type='submit'>Register</StyledButton>
-      {isError && <div className='error'>{isError.data.message}</div>}
+      <StyledButton type="submit">Register</StyledButton>
+      {isError && <div className="error">{isError.data.message}</div>}
     </Form>
   );
 };
