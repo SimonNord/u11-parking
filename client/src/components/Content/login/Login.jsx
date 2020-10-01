@@ -18,7 +18,6 @@ const StyledButton = styled.button`
   padding: 6px;
 `;
 
-// eslint-disable-next-line react/prop-types
 const Login = ({ history, setUser }) => {
   const [isError, setIsError] = useState();
   const [formData, setformData] = useState();
