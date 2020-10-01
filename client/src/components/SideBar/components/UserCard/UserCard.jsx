@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
-import { Link } from 'react-router-dom';
+import AnchorLink from '../../../shared/AnchorLink';
 
 import ExpandedList from './ExpandedList/ExpandedList';
 
@@ -67,14 +67,8 @@ const UserCard = ({ user }) => {
       </Background>
       {show && (
         <ExpandedList>
-          <ul>
-            <li>
-              <Link to="/settings">Settings</Link>
-            </li>
-            <li>
-              <Link to="/cars">Your Cars</Link>
-            </li>
-          </ul>
+          <AnchorLink to="/cars">Your Cars</AnchorLink>
+          <AnchorLink to="/settings">Settings</AnchorLink>
         </ExpandedList>
       )}
     </div>
