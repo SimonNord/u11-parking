@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 import React from 'react';
 import { Link, withRouter } from 'react-router-dom';
 import styled from 'styled-components';
@@ -8,6 +9,19 @@ import Menu from '../Menu/Menu';
 import MenuItem from '../Menu/components/MenuItem/MenuItem';
 import { getUserState } from '../../redux/selectors';
 import { logOutUser } from '../../redux/actions';
+=======
+import React from "react";
+import { Link } from "react-router-dom";
+import styled from "styled-components";
+import Spacer from "../Spacer/Spacer";
+import UserCard from "./components/UserCard/UserCard";
+import Menu from "../Menu/Menu";
+import MenuItem from "../Menu/components/MenuItem/MenuItem";
+import { connect } from "react-redux";
+import { getUserState } from "../../redux/selectors";
+import { logOutUser } from "../../redux/actions";
+import { withRouter } from "react-router-dom";
+>>>>>>> add expandable list to usercard
 
 const Background = styled.div`
   background-color: rgb(36, 47, 60);

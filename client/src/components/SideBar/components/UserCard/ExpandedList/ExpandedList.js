@@ -1,8 +1,16 @@
+<<<<<<< HEAD
 import React from 'react';
 import styled from 'styled-components/';
 
 const StyledExpandedList = styled.div.attrs({
   role: 'menu',
+=======
+import React from "react";
+import styled from "styled-components/";
+
+const StyledExpandedList = styled.div.attrs({
+  role: "menu",
+>>>>>>> add expandable list to usercard
 })`
   position: absolute;
   left: 0;
@@ -20,7 +28,11 @@ const StyledExpandedListUp = styled(StyledExpandedList)`
 `;
 
 export const ExpandedListItem = styled.span.attrs({
+<<<<<<< HEAD
   role: 'menuitem',
+=======
+  role: "menuitem",
+>>>>>>> add expandable list to usercard
 })`
   display: block;
   font-size: 15px;
@@ -30,8 +42,14 @@ export const ExpandedListItem = styled.span.attrs({
 const ExpandedList = ({ children, direction }) => {
   if (direction) {
     return <StyledExpandedListUp>{children}</StyledExpandedListUp>;
+<<<<<<< HEAD
   }
   return <StyledExpandedList>{children}</StyledExpandedList>;
+=======
+  } else {
+    return <StyledExpandedList>{children}</StyledExpandedList>;
+  }
+>>>>>>> add expandable list to usercard
 };
 
 export default ExpandedList;
