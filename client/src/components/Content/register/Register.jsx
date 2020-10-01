@@ -3,10 +3,10 @@ import axios from 'axios';
 
 import styled from 'styled-components';
 import ReactLoading from 'react-loading';
-import Form from '../../shared/Form';
-import { setUser } from '../../../redux/actions';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
+import Form from '../../shared/Form';
+import { setUser } from '../../../redux/actions';
 
 const Input = styled.input`
   padding: 10px;
@@ -39,7 +39,6 @@ const Register = ({ setUser, history }) => {
       }
     } catch (err) {
       setIsError(err);
-      console.error(err);
     }
   };
 

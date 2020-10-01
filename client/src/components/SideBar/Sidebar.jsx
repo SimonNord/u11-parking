@@ -1,14 +1,13 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { Link, withRouter } from 'react-router-dom';
 import styled from 'styled-components';
+import { connect } from 'react-redux';
 import Spacer from '../Spacer/Spacer';
 import UserCard from './components/UserCard/UserCard';
 import Menu from '../Menu/Menu';
 import MenuItem from '../Menu/components/MenuItem/MenuItem';
-import { connect } from 'react-redux';
 import { getUserState } from '../../redux/selectors';
 import { logOutUser } from '../../redux/actions';
-import { withRouter } from 'react-router-dom';
 
 const Background = styled.div`
   background-color: rgb(36, 47, 60);
@@ -24,7 +23,8 @@ const mapStateToProps = (state) => {
   return { user };
 };
 
-const Sidebar = ({ user, history }) => {
+/* history */
+const Sidebar = ({ user }) => {
   /* const handleLogout = () => {
     logOutUser();
     history.push("/");

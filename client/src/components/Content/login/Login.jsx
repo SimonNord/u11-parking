@@ -7,6 +7,7 @@ import { connect } from 'react-redux';
 import { setUser } from '../../../redux/actions';
 
 import Form from '../../shared/Form';
+
 const Input = styled.input`
   padding: 10px;
   margin-bottom: 25px;
@@ -17,6 +18,7 @@ const StyledButton = styled.button`
   padding: 6px;
 `;
 
+// eslint-disable-next-line react/prop-types
 const Login = ({ history, setUser }) => {
   const [isError, setIsError] = useState();
   const [formData, setformData] = useState();
@@ -36,7 +38,6 @@ const Login = ({ history, setUser }) => {
       }
     } catch (err) {
       setIsError(err);
-      console.error(err);
     }
   };
 

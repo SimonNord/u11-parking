@@ -30,9 +30,8 @@ export const ExpandedListItem = styled.span.attrs({
 const ExpandedList = ({ children, direction }) => {
   if (direction) {
     return <StyledExpandedListUp>{children}</StyledExpandedListUp>;
-  } else {
-    return <StyledExpandedList>{children}</StyledExpandedList>;
   }
+  return <StyledExpandedList>{children}</StyledExpandedList>;
 };
 
 export default ExpandedList;
