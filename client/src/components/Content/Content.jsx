@@ -5,6 +5,7 @@ import { connect } from 'react-redux';
 import { getUserState } from '../../redux/selectors';
 import Login from './login/Login';
 import Register from './register/Register';
+import Cars from './cars/Cars';
 
 const FullHeightAndWidth = styled.div`
   width: 100%;
@@ -50,10 +51,6 @@ const About = () => {
 };
 const Home = () => {
   return <h1>Home</h1>;
-};
-
-const Cars = () => {
-  return <h1>Your Cars</h1>;
 };
 
 export default connect(mapStateToProps, {})(Content);
