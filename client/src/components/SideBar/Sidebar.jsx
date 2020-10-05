@@ -1,14 +1,12 @@
 import React from 'react';
-import { withRouter } from 'react-router-dom';
 import styled from 'styled-components';
 import { connect } from 'react-redux';
 import Spacer from '../Spacer/Spacer';
 import UserCard from './components/UserCard/UserCard';
 import Menu from '../Menu/Menu';
 import MenuItem from '../Menu/components/MenuItem/MenuItem';
-import { getUserState } from '../../redux/selectors';
-import { logOutUser } from '../../redux/actions';
 import AnchorLink from '../shared/AnchorLink';
+import { getUserState } from '../../redux/selectors';
 
 const Background = styled.div`
   background-color: rgb(36, 47, 60);
@@ -26,10 +24,6 @@ const mapStateToProps = (state) => {
 
 /* history */
 const Sidebar = ({ user }) => {
-  /* const handleLogout = () => {
-    logOutUser();
-    history.push("/");
-  }; */
   return (
     <Background>
       {user && (
@@ -51,28 +45,33 @@ const Sidebar = ({ user }) => {
             Home
           </AnchorLink>
         </MenuItem>
-        <MenuItem>
-          <AnchorLink
-            color="white"
-            bgColor="transparent"
-            hoverColor="black"
-            hoverBgColor="white"
-            to="/login"
-          >
-            Login
-          </AnchorLink>
-        </MenuItem>
-        <MenuItem>
-          <AnchorLink
-            color="white"
-            bgColor="transparent"
-            hoverColor="black"
-            hoverBgColor="white"
-            to="/register"
-          >
-            Register
-          </AnchorLink>
-        </MenuItem>
+        {!user && (
+          <>
+            <MenuItem>
+              <AnchorLink
+                color="white"
+                bgColor="transparent"
+                hoverColor="black"
+                hoverBgColor="white"
+                to="/login"
+              >
+                Login
+              </AnchorLink>
+            </MenuItem>
+            <MenuItem>
+              <AnchorLink
+                color="white"
+                bgColor="transparent"
+                hoverColor="black"
+                hoverBgColor="white"
+                to="/register"
+              >
+                Register
+              </AnchorLink>
+            </MenuItem>
+          </>
+        )}
+
         <MenuItem>
           <AnchorLink
             color="white"
@@ -89,4 +88,4 @@ const Sidebar = ({ user }) => {
   );
 };
 
-export default withRouter(connect(mapStateToProps, { logOutUser })(Sidebar));
+export default connect(mapStateToProps, {})(Sidebar);

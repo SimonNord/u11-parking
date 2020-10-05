@@ -1,6 +1,8 @@
 import React from 'react';
-import { Switch, Route } from 'react-router-dom';
+import { Switch, Route, Redirect } from 'react-router-dom';
 import styled from 'styled-components';
+import { connect } from 'react-redux';
+import { getUserState } from '../../redux/selectors';
 import Login from './login/Login';
 import Register from './register/Register';
 
@@ -8,19 +10,33 @@ const FullHeightAndWidth = styled.div`
   width: 100%;
   height: 100%;
 `;
-const Content = () => {
+
+const mapStateToProps = (state) => {
+  const { user } = getUserState(state);
+
+  return { user };
+};
+const Content = ({ user }) => {
   return (
     <FullHeightAndWidth>
       <Switch>
-        <Route path="/about">
+        <Route exact path="/about">
           <About />
         </Route>
-        <Route path="/login">
+        <Route exact path="/login">
           <Login />
         </Route>
-        <Route path="/register">
+        <Route exact path="/register">
           <Register />
         </Route>
+        {user ? (
+          <Route exact path="/cars">
+            <Cars />
+          </Route>
+        ) : (
+          <Redirect to="/login" />
+        )}
+        ;
         <Route exact path="/">
           <Home />
         </Route>
@@ -36,4 +52,8 @@ const Home = () => {
   return <h1>Home</h1>;
 };
 
-export default Content;
+const Cars = () => {
+  return <h1>Your Cars</h1>;
+};
+
+export default connect(mapStateToProps, {})(Content);
