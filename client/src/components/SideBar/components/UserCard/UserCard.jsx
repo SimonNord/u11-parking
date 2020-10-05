@@ -1,8 +1,10 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
-import { Link } from 'react-router-dom';
-
+import AnchorLink from '../../../shared/AnchorLink';
 import ExpandedList from './ExpandedList/ExpandedList';
+import { logOutUser } from '../../../../redux/actions';
+import { getUserState } from '../../../../redux/selectors';
+import { connect } from 'react-redux';
 
 const Background = styled.div`
   display: flex;
@@ -52,7 +54,12 @@ const Image = styled.img`
   border-radius: 3px;
 `;
 
-const UserCard = ({ user }) => {
+const mapStateToProps = (state) => {
+  const { user } = getUserState(state);
+
+  return { user };
+};
+const UserCard = ({ user, logOutUser }) => {
   const [show, setShow] = useState(false);
   return (
     <div>
@@ -67,18 +74,16 @@ const UserCard = ({ user }) => {
       </Background>
       {show && (
         <ExpandedList>
-          <ul>
-            <li>
-              <Link to="/settings">Settings</Link>
-            </li>
-            <li>
-              <Link to="/cars">Your Cars</Link>
-            </li>
-          </ul>
+          <AnchorLink to="/cars">Your Cars</AnchorLink>
+          <AnchorLink to="/settings">Settings</AnchorLink>
+          {user && (
+            <AnchorLink to="/login">
+              <span onClick={logOutUser}>Log Out</span>
+            </AnchorLink>
+          )}
         </ExpandedList>
       )}
     </div>
   );
 };
-
-export default UserCard;
+export default connect(mapStateToProps, { logOutUser })(UserCard);
