@@ -19,7 +19,6 @@ const mapStateToProps = (state) => {
 const Cars = ({ user }) => {
   const [formData, setformData] = useState();
   const [isLoading, setIsLoading] = useState(false);
-  console.log(user.cars);
   const handleChange = async (event) => {
     console.log(formData);
     const { target } = event;
@@ -30,13 +29,14 @@ const Cars = ({ user }) => {
 
   const addCar = async (e) => {
     e.preventDefault();
+    console.log(formData);
     try {
       const res = await axios.put(
         'http://localhost:4000/user',
         { data: user.cars.push(formData) },
         {
           headers: {
-            Authentication: user.token,
+            Authorization: user.token,
           },
         }
       );
