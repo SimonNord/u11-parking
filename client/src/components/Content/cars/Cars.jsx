@@ -21,6 +21,7 @@ const Cars = ({ user }) => {
   const [formData, setformData] = useState();
   const [isLoading, setIsLoading] = useState(false);
   const [message, setMessage] = useState();
+  const [listAmount, setListAmount] = useState();
 
   const handleChange = async (event) => {
     const { target } = event;
@@ -40,7 +41,6 @@ const Cars = ({ user }) => {
       setIsLoading(false);
       if (res.status === 200) {
         setCarList(res.data);
-        console.log(carList);
       }
     } catch (error) {
       setMessage(error.message);
@@ -49,7 +49,7 @@ const Cars = ({ user }) => {
 
   useEffect(() => {
     getUserCars();
-  }, [carList]);
+  }, [listAmount]);
 
   const addCar = async (e) => {
     e.preventDefault();
@@ -71,16 +71,49 @@ const Cars = ({ user }) => {
 
       setIsLoading(false);
       if (res.status === 201) {
+        setListAmount((prevState) => {
+          return prevState + 1;
+        });
         setMessage(`You created a car with name: ${res.data.car.name}`);
       }
     } catch (error) {
       setMessage(error.message);
     }
   };
+
+  const deleteCar = async (id) => {
+    try {
+      const res = await axios.delete(`http://localhost/api/cars/${id}`, {
+        headers: { 'x-auth-token': user.token },
+      });
+      if (res.status === 204) {
+        setListAmount((prevState) => {
+          return prevState + 1;
+        });
+        setMessage('car removed successfully');
+      }
+    } catch (error) {
+      setMessage(error.message);
+    }
+  };
+
+  const makeActive = async (id) => {
+    try {
+      const res = await axios.put(`http://localhost/api/cars/${id}`, {
+        headers: { 'x-auth-token': user.token },
+      });
+      if (res.status === 204) {
+        setMessage('updated active car');
+      }
+    } catch (error) {
+      setMessage(error.message);
+    }
+  };
+
   return (
     <div>
       <h2>Your cars</h2>
-      <List list={carList} />
+      <List list={carList} handleDelete={deleteCar} handleMakeActive={makeActive} />
       <Form title="Add a new car" handleSubmit={addCar}>
         {isLoading ? (
           <ReactLoading color="red" width="100px" />
