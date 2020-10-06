@@ -14,13 +14,13 @@ router.get("/", auth, async (req, res) => {
 });
 
 // Get cars with a specific owner
-router.get("/:id", auth, async (req, res) => {
+router.get("/:ownerId", auth, async (req, res) => {
   try {
-    const car = await Car.findById(req.params.id);
+    const car = await Car.find({ owner: req.params.ownerId });
+    res.status(200).json(car);
   } catch (error) {
     res.status(500).json({ message: error });
   }
-  res.status(200).json(car);
 });
 
 // create a new car
@@ -56,19 +56,19 @@ router.post("/", auth, async (req, res) => {
   }
 });
 
-router.put("/:id", async (req, res) => {
+router.put("/:id", auth, async (req, res) => {
   try {
     const result = await Car.findOneAndUpdate(
       { _id: req.params.id },
       { active: req.body.active }
     );
-    res.status(200).json({ result });
+    res.status(200).json({ message: "ok" });
   } catch (error) {
     res.status(404).json({ message: error });
   }
 });
 
-router.delete("/:id", async (req, res) => {
+router.delete("/:id", auth, async (req, res) => {
   try {
     const result = await Car.findOneAndDelete({ _id: req.params.id });
     res.json({ result });
