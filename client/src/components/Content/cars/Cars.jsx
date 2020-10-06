@@ -1,10 +1,11 @@
 import axios from 'axios';
 import React, { useState } from 'react';
 import { connect } from 'react-redux';
+import styled from 'styled-components';
+import ReactLoading from 'react-loading';
 import Form from '../../shared/Form';
 import Car from './components/Car';
 import { getUserState } from '../../../redux/selectors';
-import styled from 'styled-components';
 
 const Input = styled.input`
   padding: 10px;
@@ -12,15 +13,14 @@ const Input = styled.input`
 `;
 const mapStateToProps = (state) => {
   const { user } = getUserState(state);
-
   return { user };
 };
 
 const Cars = ({ user }) => {
   const [formData, setformData] = useState();
   const [isLoading, setIsLoading] = useState(false);
+  const [message, setMessage] = useState();
   const handleChange = async (event) => {
-    console.log(formData);
     const { target } = event;
     const { value } = target;
 
@@ -29,44 +29,53 @@ const Cars = ({ user }) => {
 
   const addCar = async (e) => {
     e.preventDefault();
-    console.log(formData);
+    setIsLoading(true);
     try {
-      const res = await axios.put(
-        'http://localhost:4000/user',
-        { data: user.cars.push(formData) },
+      const res = await axios.post(
+        'http://localhost:4000/api/cars',
+        {
+          name: formData.name,
+          registrationNumber: formData.registrationNumber,
+          owner: user.id,
+        },
         {
           headers: {
-            Authorization: user.token,
+            'x-auth-token': user.token,
           },
         }
       );
-      console.log(res);
+
+      setIsLoading(false);
+      if (res.status === 201) {
+        setMessage(`You created a car with name: ${res.data.car.name}`);
+      }
     } catch (error) {
-      console.log(error);
+      setMessage(error.message);
     }
   };
 
   return (
     <div>
-      {user.car < 1 ? (
-        <div> You have no registered cars</div>
-      ) : (
-        user.cars.map((car) => {
-          return <Car car={car} />;
-        })
-      )}
+      {user.cars < 1 ? <div> You have no registered cars</div>}
 
       <Form title="Add a new car" handleSubmit={addCar}>
-        <Input onChange={handleChange} placeholder="Name" id="name" name="name" type="text" />
-        <Input
-          onChange={handleChange}
-          placeholder="ABC123"
-          id="registrationNumber"
-          name="registrationNumber"
-          type="text"
-        />
-        <button type="submit">Add</button>
+        {isLoading ? (
+          <ReactLoading color="red" width="100px" />
+        ) : (
+          <>
+            <Input onChange={handleChange} placeholder="Name" id="name" name="name" type="text" />
+            <Input
+              onChange={handleChange}
+              placeholder="ABC123"
+              id="registrationNumber"
+              name="registrationNumber"
+              type="text"
+            />
+            <button type="submit">Add</button>
+          </>
+        )}
       </Form>
+      {message && <div>{message}</div>}
     </div>
   );
 };

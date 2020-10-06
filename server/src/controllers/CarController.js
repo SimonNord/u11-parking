@@ -13,6 +13,16 @@ router.get("/", auth, async (req, res) => {
   }
 });
 
+/* get all cars with user id */
+router.get("/:id", auth, async (req, res) => {
+  try {
+    const cars = await Car.find({ owner: req.params.id });
+    return res.json(cars);
+  } catch (error) {
+    return res.status(404).json({ message: error });
+  }
+});
+
 router.get("/:id", auth, async (req, res) => {
   try {
     const car = await Car.findById(req.params.id);
