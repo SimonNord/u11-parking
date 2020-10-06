@@ -3,6 +3,7 @@ const mongoose = require("mongoose");
 const carSchema = new mongoose.Schema({
   name: String,
   registrationNumber: String,
+  active: { type: Boolean, default: false },
   owner: {
     type: mongoose.Schema.Types.ObjectId,
     ref: "User",

@@ -13,15 +13,17 @@ router.get("/", auth, async (req, res) => {
   }
 });
 
-router.get("/:id", auth, async (req, res) => {
+// Get cars with a specific owner
+router.get("/:ownerId", auth, async (req, res) => {
   try {
-    const car = await Car.findById(req.params.id);
+    const car = await Car.find({ owner: req.params.ownerId });
+    res.status(200).json(car);
   } catch (error) {
     res.status(500).json({ message: error });
   }
-  res.status(200).json(car);
 });
 
+// create a new car
 router.post("/", auth, async (req, res) => {
   // Validate the required fields in body
   const { registrationNumber, name } = req.body;
@@ -32,12 +34,12 @@ router.post("/", auth, async (req, res) => {
       .status(400)
       .json({ message: "Registration Number incorrect length" });
   }
-  //Check for existing user
+  //Check for existing registration Number
   const registrationAlreadyExists = await Car.findOne({ registrationNumber });
   if (registrationAlreadyExists)
     return res.status(400).json({ message: "This car already exists" });
 
-  //create the new user
+  //create the new car
   try {
     const car = new Car({
       name: req.body.name,
@@ -45,12 +47,33 @@ router.post("/", auth, async (req, res) => {
       owner: req.user.id,
     });
     await car.save();
-    // after save, return token and user without password
+    // after save, return car
     res.status(201).json({
       car,
     });
   } catch (error) {
     throw new Error(error);
+  }
+});
+
+router.put("/:id", auth, async (req, res) => {
+  try {
+    const result = await Car.findOneAndUpdate(
+      { _id: req.params.id },
+      { active: req.body.active }
+    );
+    res.status(200).json({ message: "ok" });
+  } catch (error) {
+    res.status(404).json({ message: error });
+  }
+});
+
+router.delete("/:id", auth, async (req, res) => {
+  try {
+    const result = await Car.findOneAndDelete({ _id: req.params.id });
+    res.json({ result });
+  } catch (error) {
+    res.status(500).json({ message: error });
   }
 });
 
