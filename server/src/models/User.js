@@ -33,12 +33,6 @@ const userSchema = new mongoose.Schema({
     default: Date.now,
   },
   loggedIn: { type: Boolean, default: false },
-  cars: [
-    {
-      name: { type: String },
-      registrationNumber: { type: String },
-    },
-  ],
   token: {
     type: String,
   },
