@@ -68,7 +68,7 @@ router.put("/:id", async (req, res) => {
   }
 });
 
-router.delete("/id", async (req, res) => {
+router.delete("/:id", async (req, res) => {
   try {
     const result = await Car.findOneAndDelete({ _id: req.params.id });
     res.json({ result });
