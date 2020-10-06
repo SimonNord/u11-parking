@@ -11,9 +11,11 @@ app.use(cors());
 
 const UserContoller = require("./src/controllers/UserController");
 const AuthController = require("./src/controllers/AuthController");
+const CarController = require("./src/controllers/CarController");
 
 app.use("/api/users", UserContoller);
 app.use("/api/auth", AuthController);
+app.use("/api/cars", CarController);
 
 const port = process.env.PORT | 4000;
 

@@ -1,28 +1,74 @@
-import Axios from 'axios';
-import React from 'react';
+import axios from 'axios';
+import React, { useState } from 'react';
+import { connect } from 'react-redux';
+import Form from '../../shared/Form';
+import Car from './components/Car';
+import { getUserState } from '../../../redux/selectors';
 import styled from 'styled-components';
-import Form from '../.././shared/Form';
--
+
+const Input = styled.input`
+  padding: 10px;
+  margin-bottom: 25px;
+`;
+const mapStateToProps = (state) => {
+  const { user } = getUserState(state);
+
+  return { user };
+};
+
 const Cars = ({ user }) => {
-    const handlesubmit = () => {
-        Axios.put(`http:/localhost:4000/user/${user.id}`,)
+  const [formData, setformData] = useState();
+  const [isLoading, setIsLoading] = useState(false);
+  console.log(user.cars);
+  const handleChange = async (event) => {
+    console.log(formData);
+    const { target } = event;
+    const { value } = target;
+
+    setformData({ ...formData, [target.name]: value });
+  };
+
+  const addCar = async (e) => {
+    e.preventDefault();
+    try {
+      const res = await axios.put(
+        'http://localhost:4000/user',
+        { data: user.cars.push(formData) },
+        {
+          headers: {
+            Authentication: user.token,
+          },
+        }
+      );
+      console.log(res);
+    } catch (error) {
+      console.log(error);
     }
-  const { cars } = user;
+  };
+
   return (
     <div>
-      {cars.length ? <div>You have no registered cars</div> : <Cars />}
-      <Form title="add car" handleSubmit={handleSubmit} >
-        <label>
-          {' '}
-          Add a car
-          <input type="text"></input>
-        </label>
-       
+      {user.car < 1 ? (
+        <div> You have no registered cars</div>
+      ) : (
+        user.cars.map((car) => {
+          return <Car car={car} />;
+        })
+      )}
 
-        </Form>
-     </div>
-    
+      <Form title="Add a new car" handleSubmit={addCar}>
+        <Input onChange={handleChange} placeholder="Name" id="name" name="name" type="text" />
+        <Input
+          onChange={handleChange}
+          placeholder="ABC123"
+          id="registrationNumber"
+          name="registrationNumber"
+          type="text"
+        />
+        <button type="submit">Add</button>
+      </Form>
+    </div>
   );
 };
 
-export default Cars;
+export default connect(mapStateToProps, { getUserState })(Cars);
