@@ -58,13 +58,21 @@ router.post("/", auth, async (req, res) => {
 
 router.put("/:id", auth, async (req, res) => {
   try {
+    const car = await Car.find({ _id: req.params.id });
+
+    const removedActive = await Car.updateMany(
+      { owner: car[0].owner },
+      { active: false }
+    );
+
     const result = await Car.findOneAndUpdate(
       { _id: req.params.id },
       { active: req.body.active }
     );
+
     res.status(200).json({ message: "ok" });
   } catch (error) {
-    res.status(404).json({ message: error });
+    res.status(404).json({ message: error.message });
   }
 });
 
