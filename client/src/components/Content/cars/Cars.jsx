@@ -57,7 +57,6 @@ const Cars = ({ user }) => {
       if (res.status === 200) {
         setCarList(res.data);
         setListAmount(res.data.length);
-        handleSetActiveCar();
       }
     } catch (error) {
       setMessage(error.message);
@@ -88,12 +87,9 @@ const Cars = ({ user }) => {
 
       setIsLoading(false);
       if (res.status === 201) {
-<<<<<<< HEAD
         setListAmount((prevState) => {
           return prevState + 1;
         });
-=======
->>>>>>> cb978891b8595d55605ae20d2fa995e885389ed9
         setMessage(`You created a car with name: ${res.data.car.name}`);
       }
     } catch (error) {
@@ -130,6 +126,8 @@ const Cars = ({ user }) => {
       );
       if (res.status === 200) {
         setMessage('Updated active car');
+        await getUserCars();
+        handleSetActiveCar();
       }
     } catch (error) {
       setMessage(error.message);
