@@ -88,9 +88,12 @@ const Cars = ({ user }) => {
 
       setIsLoading(false);
       if (res.status === 201) {
+<<<<<<< HEAD
         setListAmount((prevState) => {
           return prevState + 1;
         });
+=======
+>>>>>>> cb978891b8595d55605ae20d2fa995e885389ed9
         setMessage(`You created a car with name: ${res.data.car.name}`);
       }
     } catch (error) {
