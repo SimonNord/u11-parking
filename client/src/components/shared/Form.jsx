@@ -19,7 +19,7 @@ const StyledForm = styled.form`
 const Form = ({ title, handleSubmit, children }) => {
   return (
     <FormBackground>
-      <h1>{title}</h1>
+      <h3>{title}</h3>
       <StyledForm onSubmit={handleSubmit}>{children}</StyledForm>
     </FormBackground>
   );
